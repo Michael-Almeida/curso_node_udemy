@@ -1,5 +1,5 @@
 const express = require("express");
-const exphbs = require("express-handlebars");
+const {engine} = require("express-handlebars");
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const flash = require("express-flash");
@@ -11,7 +11,10 @@ const conn = require("./db/conn");
 const Tought = require("./models/Tought");
 const User = require("./models/User");
 
-app.engine("handlebars", exphbs.engine());
+const toughtsRoutes = require("./routes/toughtsRoutes");
+const ToughtController = require("./controllers/ToughtController");
+
+app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 
 app.use(express.urlencoded({ extends: true }));
@@ -47,6 +50,9 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use("/toughts", toughtsRoutes);
+app.get("/",ToughtController.showThoughts)
 
 conn
   // .sync({ force: true })
