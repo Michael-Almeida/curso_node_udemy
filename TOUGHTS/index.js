@@ -12,6 +12,7 @@ const Tought = require("./models/Tought");
 const User = require("./models/User");
 
 const toughtsRoutes = require("./routes/toughtsRoutes");
+const authRoutes = require("./routes/authRoutes")
 const ToughtController = require("./controllers/ToughtController");
 
 app.engine("handlebars", engine());
@@ -52,7 +53,10 @@ app.use((req, res, next) => {
 });
 
 app.use("/toughts", toughtsRoutes);
+app.use("/",authRoutes )
+
 app.get("/",ToughtController.showThoughts)
+
 
 conn
   // .sync({ force: true })
